@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ro-RO">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <title>Bilete CFR</title>
+
+        <link rel="stylesheet" media="all" href="main.css"/>
+        <script defer src="main.js"></script>
+        <script defer src="ui.js"></script>
+    </head>
+    <body>
+        <h1>Bilete CFR</h1>
+        <p>Introduceți stația de plecare, destinația și nr. de locuri dorite.</p>
+        <form onsubmit="return false;">
+            <div>
+                <label for="persons">Număr pasageri:</label>
+                <input id="persons" type="number" min="1" max="5" value="1"/>
+            </div>
+            <div>
+                <label for="group-together">Locurile să fie împreună:</label>
+                <input id="group-together" type="checkbox" checked="true"/>
+                <p>Dacă alegeți această opțiune, veți primi biletul doar în cazul în care tot grupul poate sta în același compartiment.</p>
+            </div>
+            <fieldset>
+                <legend>Stații</legend>
+                <label for="departure-station">Stație de plecare</label>
+                <select id="departure-station">
+                    <option value="0">Brașov</option>
+                    <option value="1">Predeal</option>
+                    <option value="2">Azuga</option>
+                    <option value="3">Bușteni</option>
+                    <option value="4">Sinaia</option>
+                    <option value="5">Câmpina</option>
+                    <option value="6">Ploiești Vest</option>
+                    <option value="7">București Nord</option>
+                </select>
+
+                <label for="arrival-station">Stație de sosire</label>
+                <select id="arrival-station">
+                    <option value="0">Brașov</option>
+                    <option value="1">Predeal</option>
+                    <option value="2">Azuga</option>
+                    <option value="3">Bușteni</option>
+                    <option value="4">Sinaia</option>
+                    <option value="5">Câmpina</option>
+                    <option value="6">Ploiești Vest</option>
+                    <option value="7">București Nord</option>
+                </select>
+            </fieldset>
+
+            <input type="submit" value="Adaugă bilet"/>
+        </form>
+        <section>
+            <h2>Repartizarea locurilor</h2>
+
+            <div id="train"></div>
+        </section>
+    </body>
+</html>
