@@ -3,9 +3,7 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
         <title>Bilete CFR</title>
-
         <link rel="stylesheet" media="all" href="main.css"/>
         <script defer src="main.js"></script>
         <script defer src="ui.js"></script>
@@ -26,19 +24,16 @@
             <fieldset>
                 <legend>Stații</legend>
                 <label for="departure-station">Stație de plecare</label>
-                <select id="departure-station"></select>
+                <select id="departure-station" onchange="dep_arr();"></select>
                 <label for="arrival-station">Stație de sosire</label>
                 <select id="arrival-station"></select>
             </fieldset>
-
-            <input type="submit" value="Adaugă bilet(e)"/>
+            <input id = "submit-tickes" type="submit" value="Adaugă bilet(e)"/>
         </form>
         <section>
             <h2>Repartizarea locurilor</h2>
-
             <div id="train"></div>
         </section>
-      
         <h1>Anulare Bilete CFR</h1>
         <p>Introduceți pe rând Codul Unic al fiecărui bilet pe care vrei să+l returnezi.</p>
         <form onsubmit="return false;">
@@ -47,7 +42,7 @@
             <select id="cancel-compartment"></select>
             <select id="cancel-seat"></select>
             &emsp;
-            <input id = "cancel-ticket" type="submit" value="Anulează biletul" onclick="cancelTicket()"/>
+            <input id = "cancel-ticket" type="submit" value="Anulează biletul" onclick="cancelTicket();"/>
         </form>
     </body>
 </html>
