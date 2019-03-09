@@ -27,26 +27,26 @@
                 <legend>Stații</legend>
                 <label for="departure-station">Stație de plecare</label>
                 <select id="departure-station">
-                    <option value="0">Brașov</option>
-                    <option value="1">Predeal</option>
-                    <option value="2">Azuga</option>
-                    <option value="3">Bușteni</option>
-                    <option value="4">Sinaia</option>
-                    <option value="5">Câmpina</option>
-                    <option value="6">Ploiești Vest</option>
-                    <option value="7">București Nord</option>
+                    <option value="0">București Nord</option>
+                    <option value="1">Ploiești Vest</option>
+                    <option value="2">Câmpina</option>
+                    <option value="3">Sinaia</option>
+                    <option value="4">Bușteni</option>
+                    <option value="5">Azuga</option>
+                    <option value="6">Predeal</option>
+                    <!-- <option value="7">Brașov</option> -->
                 </select>
 
                 <label for="arrival-station">Stație de sosire</label>
                 <select id="arrival-station">
-                    <option value="0">Brașov</option>
-                    <option value="1">Predeal</option>
-                    <option value="2">Azuga</option>
-                    <option value="3">Bușteni</option>
-                    <option value="4">Sinaia</option>
-                    <option value="5">Câmpina</option>
-                    <option value="6">Ploiești Vest</option>
-                    <option value="7">București Nord</option>
+                    <!-- <option value="0">București Nord</option> -->
+                    <option value="1">Ploiești Vest</option>
+                    <option value="2">Câmpina</option>
+                    <option value="3">Sinaia</option>
+                    <option value="4">Bușteni</option>
+                    <option value="5">Azuga</option>
+                    <option value="6">Predeal</option>
+                    <option value="7">Brașov</option>
                 </select>
             </fieldset>
 
@@ -57,5 +57,16 @@
 
             <div id="train"></div>
         </section>
+      
+        <h1>Anulare Bilete CFR</h1>
+        <p>Introduceți pe rând Codul Unic al fiecărui bilet pe care vrei să+l returnezi.</p>
+        <form onsubmit="return false;">
+            <span>Codul Unic al biletului: </span>
+            <select id="cancelled-wagon"></select>
+            <select id="cancelled-compartment"></select>
+            <select id="cancelled-seat"></select>
+            &emsp;
+            <input type="submit" value="Anulează biletul"/>
+        </form>
     </body>
 </html>
