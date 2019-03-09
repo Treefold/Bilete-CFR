@@ -1,4 +1,5 @@
-let WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
+let WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8, STATIONS_NUMBER = 8;
+let STATIONS = ['București Nord','Ploiești Vest','Câmpina','Sinaia','Bușteni','Azuga','Predeal','Brașov'];
 
 /////assert
 
@@ -39,6 +40,7 @@ class Compartment {
     constructor() {
         this.parent = null;
         this._freeSeats = COMPARTMENT_CAPACITY;
+        this.takenSeats = [];
     }
     get freeSeats(){
         return this._freeSeats;
@@ -48,7 +50,7 @@ class Compartment {
         if (this._freeSeats < 0 || this._freeSeats > 8)
             throw Error("Wrong alocation of seats in compartment!");
     }
-    
+
 
     get nrSeats() {
         return this.freeSeats;
@@ -58,6 +60,7 @@ class Compartment {
 class Ticket {
     constructor(start, finish) {
         this.Compartment = undefined;
+        this.Seat = undefined;
         this.start = start;
         this.finish = finish;
     }
@@ -79,23 +82,9 @@ class Train {
     }
 }
 
-const train = document.getElementById("train");
-let CFR = new Train 
+function cancelTicket() {
 
-for (let i = 0; i < WAGON_COUNT; ++i) {
-    const wagon = document.createElement("div");
-    wagon.className = "wagon";
-
-    const wagonNumber = document.createElement('span');
-    wagonNumber.textContent = "Vagon " + (i + 1) + ":";
-    wagon.appendChild(wagonNumber);
-
-    for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-        const compartment = document.createElement('span');
-        compartment.className = "compartment";
-        compartment.textContent = "0/" + COMPARTMENT_CAPACITY;
-        wagon.appendChild(compartment);
-    }
-
-    train.appendChild(wagon);
+    const c_wagon = document.getElementById("cancel-wagon");
+    const c_compartment = document.getElementById("cancel-compartment");
+    const c_seat = document.getElementById("cancel-seat");
 }
