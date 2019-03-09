@@ -21,7 +21,6 @@
     arr_st.appendChild(option);
 })();
 
-
 (function(){
   const train = document.getElementById("train");
 
@@ -43,7 +42,6 @@
       train.appendChild(wagon);
   }
 })();
-
 
 (function(){
     const c_wagon = document.getElementById("cancel-wagon");
