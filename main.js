@@ -1,21 +1,36 @@
-console.log("inceput");
 class TreeNode{
     constructor(info){
-        this.info = info;
+        this.parent = null;
         this.children = [];
     }
-    get data(){
-        return this.info;
-    }
 
+    addChild(child){
+        this.children.push(child);
+    }
 }
 
 class Compartment {
     constructor(){
+        this.parent = null;
         this.freeSeats = 0;
     }
     get nrSeats(){
         return this.freeSeats;
+    }
+}
+
+class Ticket{
+    constructor(start, finish){
+        this.Compartment = undefined;
+        this.start = start;
+        this.finish = finish;
+    }
+}
+
+class Train{
+    constructor(){
+        let mainNode = new TreeNode;
+
     }
 }
 
@@ -27,10 +42,7 @@ for(let i = 0; i < 5; ++i)
     for(let j = 0; j < 10; ++j)
     {
         let comp = new Compartment;
-        wagon.children.push(comp);
+        wagon.addChild(comp);
     }
-    root.children.push(wagon);
+    root.addChild(wagon);
 }
-
-root.children[0].children[0] = 71;
-console.log(root.children[0].children[0]);
