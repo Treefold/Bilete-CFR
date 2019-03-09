@@ -4,11 +4,13 @@
     let option = document.createElement('option');
     option.value = 0;
     option.innerHTML = STATIONS[0];
+    //option.onclick = "dep_arr();";
     dep_st.appendChild(option);
     for (let i = 1; i < STATIONS_NUMBER-1; ++i) {
         option = document.createElement('option');
         option.value = i;
         option.innerHTML = STATIONS[i];
+        //option.onclick = "dep_arr();";
         dep_st.appendChild(option);
         option = document.createElement('option');
         option.value = i;
@@ -68,3 +70,13 @@
         c_seat.appendChild(option);
     }
 })();
+ 
+function dep_arr() {
+    const dep_station = document.getElementById("departure-station").value;
+    document.getElementById("arrival-station").selectedIndex = dep_station;
+    const arr_st = document.getElementById("arrival-station").childNodes;
+    const lg = arr_st.length
+    for (let i = 0; i < lg; ++i) {
+        arr_st[i].style.visibility = (i < dep_station) ? "hidden" : "visible";          
+    }
+}
