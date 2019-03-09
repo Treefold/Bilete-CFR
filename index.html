@@ -26,31 +26,12 @@
             <fieldset>
                 <legend>Stații</legend>
                 <label for="departure-station">Stație de plecare</label>
-                <select id="departure-station">
-                    <option value="0">București Nord</option>
-                    <option value="1">Ploiești Vest</option>
-                    <option value="2">Câmpina</option>
-                    <option value="3">Sinaia</option>
-                    <option value="4">Bușteni</option>
-                    <option value="5">Azuga</option>
-                    <option value="6">Predeal</option>
-                    <!-- <option value="7">Brașov</option> -->
-                </select>
-
+                <select id="departure-station"></select>
                 <label for="arrival-station">Stație de sosire</label>
-                <select id="arrival-station">
-                    <!-- <option value="0">București Nord</option> -->
-                    <option value="1">Ploiești Vest</option>
-                    <option value="2">Câmpina</option>
-                    <option value="3">Sinaia</option>
-                    <option value="4">Bușteni</option>
-                    <option value="5">Azuga</option>
-                    <option value="6">Predeal</option>
-                    <option value="7">Brașov</option>
-                </select>
+                <select id="arrival-station"></select>
             </fieldset>
 
-            <input type="submit" value="Adaugă bilet"/>
+            <input type="submit" value="Adaugă bilet(e)"/>
         </form>
         <section>
             <h2>Repartizarea locurilor</h2>
@@ -62,11 +43,11 @@
         <p>Introduceți pe rând Codul Unic al fiecărui bilet pe care vrei să+l returnezi.</p>
         <form onsubmit="return false;">
             <span>Codul Unic al biletului: </span>
-            <select id="cancelled-wagon"></select>
-            <select id="cancelled-compartment"></select>
-            <select id="cancelled-seat"></select>
+            <select id="cancel-wagon"></select>
+            <select id="cancel-compartment"></select>
+            <select id="cancel-seat"></select>
             &emsp;
-            <input type="submit" value="Anulează biletul"/>
+            <input id = "cancel-ticket" type="submit" value="Anulează biletul" onclick="cancelTicket()"/>
         </form>
     </body>
 </html>
