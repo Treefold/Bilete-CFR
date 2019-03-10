@@ -11,7 +11,7 @@
     <body>
         <h1>Bilete CFR</h1>
         <p>Introduceți stația de plecare, destinația și nr. de locuri dorite.</p>
-        <form onsubmit="return false;">
+        <form onsubmit="addTicket(); return false;">
             <div>
                 <label for="persons">Număr pasageri:</label>
                 <input id="persons" type="number" min="1" max="5" value="1"/>
@@ -28,7 +28,7 @@
                 <label for="arrival-station">Stație de sosire</label>
                 <select id="arrival-station"></select>
             </fieldset>
-            <input id = "submit-ticket" type="submit" value="Adaugă bilet(e)" onclick="addTicket();"/>
+            <input id = "submit-ticket" type="submit" value="Adaugă bilet(e)"/>
         </form>
         <section>
             <h2>Repartizarea locurilor</h2>
@@ -36,13 +36,13 @@
         </section>
         <h1>Anulare Bilete CFR</h1>
         <p>Introduceți pe rând Codul Unic al fiecărui bilet pe care vrei să+l returnezi.</p>
-        <form onsubmit="return false;">
+        <form onsubmit="cancelTicket(); return false;">
             <span>Codul Unic al biletului: </span>
             <select id="cancel-wagon"></select>
             <select id="cancel-compartment"></select>
             <select id="cancel-seat"></select>
             &emsp;
-            <input id = "cancel-ticket" type="submit" value="Anulează biletul" onclick="cancelTicket();"/>
+            <input id = "cancel-ticket" type="submit" value="Anulează biletul"/>
         </form>
     </body>
 </html>
