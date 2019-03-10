@@ -29,27 +29,12 @@
 })();
 
 function formatCompartment(compartmentEl, compartment, station) {
-    let occupiedSeats = 0;
-    for (let i = 0; i <= station; ++i) {
-        occupiedSeats += compartment.reservedSeats[i];
-    }
-    compartmentEl.textContent = occupiedSeats + "/" + COMPARTMENT_CAPACITY;
-    const percentFull = occupiedSeats / COMPARTMENT_CAPACITY;
+    compartmentEl.textContent = compartment.reservedS[station] + "/" + COMPARTMENT_CAPACITY;
+    const percentFull = compartment.reservedS[station] / COMPARTMENT_CAPACITY;
     compartmentEl.style.background = "linear-gradient(to right, lightgray " + (percentFull * 100) 
                             + "%, white " + (percentFull * 100) + "%)";
 }
 
-function formatCompartmentOccupancy(compartment) {
-    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats[0];
-    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
-}
-function formatCompartmentGradient(compartment) {
-    const percentFree = compartment.freeSeats[0] / COMPARTMENT_CAPACITY;
-    const percentFull = 1 - percentFree;
-
-    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
-        "%, white " + (percentFull * 100) + "%)";
-}
 // Display Train
 (function (train) {
     const trainEl = document.getElementById("train");
@@ -92,8 +77,7 @@ function addTicket() {
     for (let i = 0; i < WAGON_COUNT; ++i) {
         let compartments = wagons[i].getElementsByClassName("compartment");
         for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-            compartments[j].textContent = formatCompartmentOccupancy(CFR.wagons[i].compartments[j]);
-            compartments[j].style.background = formatCompartmentGradient(CFR.wagons[i].compartments[j]);
+            formatCompartment(compartments[j], CFR.wagons[i].compartments[j], start);
         }
     }
 }
