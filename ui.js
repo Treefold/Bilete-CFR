@@ -1,3 +1,7 @@
+// const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
+// const STATIONS = ["București Nord", "Ploiești Vest", "Câmpina", "Sinaia", "Bușteni", "Azuga", "Predeal", "Brașov"];
+// const STATIONS_NUMBER = STATIONS.length;
+
 // Dep + Arr Select Option
 (function () {
     const dep_st = document.getElementById("departure-station");
@@ -24,33 +28,28 @@
     arr_st.appendChild(option);
 })();
 
-// Cancel Ticket Select Option
-(function () {
-    const c_wagon = document.getElementById("cancel-wagon");
-    for (let i = 0; i < WAGON_COUNT; ++i) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i + 1;
-        c_wagon.appendChild(option);
+function formatCompartment(compartmentEl, compartment, station) {
+    let occupiedSeats = 0;
+    for (let i = 0; i <= station; ++i) {
+        occupiedSeats += compartment.reservedSeats[i];
     }
+    compartmentEl.textContent = occupiedSeats + "/" + COMPARTMENT_CAPACITY;
+    const percentFull = occupiedSeats / COMPARTMENT_CAPACITY;
+    compartmentEl.style.background = "linear-gradient(to right, lightgray " + (percentFull * 100) 
+                            + "%, white " + (percentFull * 100) + "%)";
+}
 
-    const c_compartment = document.getElementById("cancel-compartment");
-    for (let i = 0; i < COMPARTMENTS_PER_WAGON; ++i) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i + 1;
-        c_compartment.appendChild(option);
-    }
+function formatCompartmentOccupancy(compartment) {
+    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats[0];
+    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
+}
+function formatCompartmentGradient(compartment) {
+    const percentFree = compartment.freeSeats[0] / COMPARTMENT_CAPACITY;
+    const percentFull = 1 - percentFree;
 
-    const c_seat = document.getElementById("cancel-seat");
-    for (let i = 0; i < COMPARTMENT_CAPACITY; ++i) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i + 1;
-        c_seat.appendChild(option);
-    }
-})();
-
+    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
+        "%, white " + (percentFull * 100) + "%)";
+}
 // Display Train
 (function (train) {
     const trainEl = document.getElementById("train");
@@ -69,16 +68,14 @@
             const compartment = wagon.compartments[j];
             const compartmentEl = document.createElement('span');
             compartmentEl.className = "compartment";
-
-            compartmentEl.textContent = formatCompartmentOccupancy(compartment);
-            compartmentEl.style.background = formatCompartmentGradient(compartment);
-
+            compartmentEl.textContent = "0/" + COMPARTMENT_CAPACITY;
             wagonEl.appendChild(compartmentEl);
         }
         trainEl.appendChild(wagonEl);
     }
 })(CFR);
 
+// adding (if possible) a ticket for a group
 function addTicket() {
     const groupSize = Number(document.getElementById("persons").value);
     const start = Number(document.getElementById("departure-station").selectedIndex);
@@ -101,6 +98,7 @@ function addTicket() {
     }
 }
 
+// adding (if possible) all the tickets from the textArea
 function addAllTickets() {
     let groupSize, start, duration;
 
@@ -135,8 +133,7 @@ function dep_arr() {
     for (let i = 0; i < WAGON_COUNT; ++i) {
         let compartments = wagons[i].getElementsByClassName("compartment");
         for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-            compartments[j].textContent = formatCompartmentOccupancy(CFR.wagons[i].compartments[j]);
-            compartments[j].style.background = formatCompartmentGradient(CFR.wagons[i].compartments[j]);
+            formatCompartment(compartments[j], CFR.wagons[i].compartments[j], dep_station);
         }
     }
 }
