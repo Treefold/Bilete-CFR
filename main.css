@@ -42,6 +42,11 @@ ol li {
     list-style-type: square;
 }
 
+#route-selection {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
 #train {
     width: 100%;
 }
