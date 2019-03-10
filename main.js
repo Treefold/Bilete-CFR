@@ -26,10 +26,19 @@ class Compartment {
         return this._freeSeats;
     }
     set freeSeats(value) {
-        if (this._freeSeats < 0 || this._freeSeats > 8) {
+        if (value < 0 || value > 8) {
             throw Error("Wrong alocation of seats in compartment!");
         }
-        this._freeSeats += value;
+
+        const diff = value - this._freeSeats;
+        this._freeSeats = value;
+
+        // Update the free seat count of the parents
+        let node = this.parent;
+        while (node != null) {
+            node.freeSeats += diff;
+            node = node.parent;
+        }
     }
     deleteSeat(s) {
         if (this.seatAvability[s] == 1) {
@@ -42,15 +51,16 @@ class Compartment {
 }
 
 class TreeNode {
-    constructor(fs) {
+    constructor() {
         this.parent = null;
         this.children = [];
-        this.freeSeats = (fs === undefined) ? COMPARTMENT_CAPACITY : fs;
+        this.freeSeats = 0;
     }
     /// Adds a new child (node) to this node, the parameter is the child
     addChild(child) {
         this.children.push(child);
         child.parent = this;
+        this.freeSeats += child.freeSeats;
     }
     /// Returns the child node with the most empty number of seats.
     getEmptiestChild() {
@@ -87,7 +97,8 @@ class Train {
 
 //// functions
 
-let CFR = new Train();
+const CFR = new Train;
+
 function cancelTicket() {
     const c_wagon = document.getElementById("cancel-wagon");
     const c_compartment = document.getElementById("cancel-compartment");
@@ -101,6 +112,7 @@ runTests();
 
 function runTests() {
     testNodeChild();
+    testFreeSeats();
 }
 
 /// Ensures that a given condition is true.
@@ -116,4 +128,25 @@ function testNodeChild() {
     node.addChild(new TreeNode);
 
     assert(node.children[0].parent === node, "Child's parent is not correct");
+}
+
+function testFreeSeats() {
+    const train = new Train;
+    const root = train.root;
+
+    const TOTAL_SEATS = WAGON_COUNT * COMPARTMENTS_PER_WAGON * COMPARTMENT_CAPACITY;
+
+    assert(root.freeSeats === TOTAL_SEATS,
+        "Train does not have right number of seats");
+
+    root.children[2].children[5].freeSeats -= 5;
+    root.children[4].children[2].freeSeats -= 7;
+
+    assert(root.freeSeats === TOTAL_SEATS - 12,
+        "Reserving seats does not work");
+
+    root.children[4].children[2].freeSeats += 5;
+
+    assert(root.freeSeats === TOTAL_SEATS - 7,
+        "Freeing seats does not work");
 }
