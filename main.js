@@ -111,6 +111,7 @@ runTests();
 function runTests() {
     testNodeChild();
     testFreeSeats();
+    testEmptiestChild();
 }
 
 /// Ensures that a given condition is true.
@@ -149,7 +150,7 @@ function testFreeSeats() {
         "Freeing seats does not work");
 }
 
-function testEptiestChild(){
+function testEmptiestChild(){
     let r = new TreeNode;
     let c1 = new Compartment;
     c1.freeSeats -= 2;
