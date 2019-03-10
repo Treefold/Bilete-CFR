@@ -154,5 +154,5 @@ function testEmptiestChild() {
     r.addChild(c2);
     r.addChild(c3);
 
-    assert(r.getEmptiestChild() === c3, "Wrong child chosen when looking for the emptiest!");
+    assert(r.getEmptiestChild() === c1, "Wrong child chosen when looking for the emptiest!");
 }
