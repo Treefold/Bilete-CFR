@@ -148,3 +148,19 @@ function testFreeSeats() {
     assert(root.freeSeats === TOTAL_SEATS - 7,
         "Freeing seats does not work");
 }
+
+function testEptiestChild(){
+    let r = new TreeNode;
+    let c1 = new Compartment;
+    c1.freeSeats -= 2;
+    let c2 = new Compartment;
+    c2.freeSeats -= 3;
+    let c3 = new Compartment;
+    c3.freeSeats -= 8;
+
+    r.addChild(c1);
+    r.addChild(c2);
+    r.addChild(c3);
+
+    assert(r.getEmptiestChild() === c3, "Wrong child chosen when looking for the emptiest!");
+}
