@@ -46,7 +46,6 @@ class Compartment {
 
         const diff = value - this._freeSeats;
         this._freeSeats = value;
-        //this.callback();
 
         // Update the free seat count of the parents
         let node = this.parent;
