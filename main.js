@@ -63,21 +63,9 @@ class TreeNode {
         this.freeSeats += child.freeSeats;
     }
     /// Returns the child node with the most empty number of seats.
-    /*getEmptiestChild() {
-        let min = this.children[0].freeSeats;
-        let child = this.children[0];
-        let lg = this.children.length;
-        for (let i = 1; i < lg; ++i) {
-            if (this.children[i].freeSeats < min) {
-                min = this.children[i].freeSeats;
-                child = this.children[i];
-            }
-        }
-        return child;
-    }*/
     getEmptiestChild() {
 
-        function reducer(min.freeSeats, elem.freeSeats) {
+        function reducer(min, elem) {
             return elem.freeSeats > min.freeSeats ? min.freeSeats : elem.freeSeats;
         }
         return this.children.reduce(reducer);
