@@ -129,8 +129,8 @@ class Compartment {
     constructor(parent) {
         this.parent = parent;
         this.freeSeats = new Array(ROUTE_LENGTH).fill(COMPARTMENT_CAPACITY);
-        this.reservedSeats = [];
-        for (let i = 0; i < STATIONS_NUMBER; ++i) { this.reservedSeats[i] = 0; }
+        this.reservedS = [];
+        for (let i = 0; i < STATIONS_NUMBER; ++i) { this.reservedS[i] = 0; }
     }
 
     /// Returns the amount of available seats in this compartment on a section of the route.
@@ -146,8 +146,9 @@ class Compartment {
             }
           
             this.freeSeats[i] -= num;
-            this.reservedSeats[start] += num;
-            this.reservedSeats[finish] -= num;
+            for (let i = start; i < finish; ++i) { this.reservedS[i] += 1; }
+            //this.reservedS[start] += num;
+            //this.reservedS[finish] -= num;
 
             // Update the free seat count of the parents
             let node = this.parent;
