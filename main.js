@@ -32,6 +32,21 @@ class Train {
         const start = ticket.start;
         const finish = ticket.finish;
 
+        // If we simply do not have enough seats anywhere in the train
+        if (ticket.groupSize > this.getFreeSeats(start, finish)) {
+            return false;
+        }
+
+        const maxGroupSize = this.getMaxGroupSize(start, finish);
+
+        // Group needs to be placed in separate compartments
+        if (ticket.groupSize > maxGroupSize) {
+            const first = new Ticket(maxGroupSize, start, finish);
+            const second = new Ticket(ticket.groupSize - maxGroupSize, start, finish);
+
+            return this.addTicket(first) && this.addTicket(second);
+        }
+
         const wagon = this.getEmptiestChild(start, finish);
         const compartment = wagon.getBestCompartment(start, finish);
 
@@ -44,11 +59,21 @@ class Train {
         }
     }
 
+    getFreeSeats(start, finish) {
+        return this.freeSeats.slice(start, finish)
+            .reduce((min, curr) => Math.min(min, curr));
+    }
+
     /// Returns the child node with the most empty number of seats.
     getEmptiestChild(start, finish) {
         return this.wagons.reduce(function (max, elem) {
             return elem.getFreeSeats(start, finish) > max.getFreeSeats(start, finish) ? elem : max;
         });
+    }
+
+    getMaxGroupSize(start, finish) {
+        return this.maxGroupSize.slice(start, finish)
+            .reduce((min, curr) => Math.min(min, curr));
     }
 
     updateMaxGroupSize(idx) {
