@@ -110,18 +110,34 @@ function updateTrainDisplay() {
 function addAllTickets() {
     let groupSize, start, duration;
 
-    document.getElementById("tickets").value.split('\n').forEach(function (element) {
-        let now = element.trim().split(/\s+/);
-        groupSize = parseInt(now[0]);
-        start = parseInt(now[1]) - 1;
-        duration = parseInt(now[2]);
-        if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAX_SIZE) { return; }
-        if (isNaN(start) || start < 0 || start >= STATIONS_NUMBER - 1) { return; }
-        if (isNaN(duration) || duration <= 0 || start + duration >= STATIONS_NUMBER) { return; }
-        CFR.addTicket(new Ticket(groupSize, start, start + duration));
-    });
+    try {
+        let line = 0;
+        const ticketsEl = document.getElementById("tickets");
+        ticketsEl.value.split('\n').forEach(function (element) {
+            line++;
+            const lineMsg = "Linia " + line + ": ";
+            let now = element.trim().split(/\s+/);
+            groupSize = parseInt(now[0]);
+            start = parseInt(now[1]) - 1;
+            duration = parseInt(now[2]);
+            if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAX_SIZE) {
+                throw Error(lineMsg + "Nu am înțeles dimensiunea grupului");
+            }
+            if (isNaN(start) || start < 0 || start >= STATIONS_NUMBER - 1) {
+                throw Error(lineMsg + "Nu am înțeles stația de plecare")
+            }
+            if (isNaN(duration) || duration <= 0 || start + duration >= STATIONS_NUMBER) {
+                throw Error(lineMsg + "Nu am înțeles numărul de stații");
+            }
+            CFR.addTicket(new Ticket(groupSize, start, start + duration));
+        });
 
-    dep_arr();
+        ticketsEl.value = "";
+
+        dep_arr();
+    } catch (error) {
+        alert(error);
+    }
 }
 
 // Select Dep - > Display some Arr + Train in station Dep
