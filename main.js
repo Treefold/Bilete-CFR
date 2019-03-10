@@ -146,19 +146,6 @@ function cancelTicket() {
     }
 };
 
-function toOne() {
-    // Change train display
-    let wagons = document.getElementById("train").childNodes;
-    for (let i = 0; i < WAGON_COUNT; ++i) {
-        let compartments = wagons[i].getElementsByClassName("compartment");
-        for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-            CFR.wagons[i].compartments[j].reserveSeats(1, 0, 7);
-            compartments[j].textContent = formatCompartmentOccupancy(CFR.wagons[i].compartments[j]);
-            compartments[j].style.background = formatCompartmentGradient(CFR.wagons[i].compartments[j]);
-        }
-    }
-}
-
 //// Unit tests for the classes in the project
 
 runTests();
