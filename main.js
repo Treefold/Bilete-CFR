@@ -66,7 +66,7 @@ class TreeNode {
     getEmptiestChild() {
 
         function reducer(min, elem) {
-            return elem.freeSeats > min.freeSeats ? min.freeSeats : elem.freeSeats;
+            return elem.freeSeats > min.freeSeats ? min : elem;
         }
         return this.children.reduce(reducer);
     }
