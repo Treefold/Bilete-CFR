@@ -105,6 +105,23 @@ function addTicket() {
     }
 }
 
+function addAllTickets() {
+    let groupSize, start, finish;
+    
+    document.getElementById("tickets").value.split('\n').forEach(function(element) {
+        let now = element.split(' ');
+        groupSize = parseInt(now[0]);
+        start = parseInt(now[1]);
+        finish = parseInt(now[2]);
+        if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAXIM_NUMBER) { return; }
+        if (isNaN(start) || start < 0 || start >= STATIONS_NUMBER - 1) { return; }
+        if (isNaN(finish) || finish <= 0 || finish >= STATIONS_NUMBER) { return; }
+        CFR.addTicket(new Ticket(groupSize, start, finish)); 
+    });
+  
+    dep_arr();
+}
+
 // Select Dep - > Display some Arr + Train in station Dep
 function dep_arr() {
     const dep_station = document.getElementById("departure-station").value;
@@ -122,8 +139,8 @@ function dep_arr() {
     for (let i = 0; i < WAGON_COUNT; ++i) {
         let compartments = wagons[i].getElementsByClassName("compartment");
         for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-            compartments[j].textContent = formatCompartmentOccupancy(compartment[i]);
-            compartments[j].style.background = formatCompartmentGradient(compartment);
+            compartments[j].textContent = formatCompartmentOccupancy(CFR.wagons[i].compartments[j]);
+            compartments[j].style.background = formatCompartmentGradient(CFR.wagons[i].compartments[j]);
         }
     }
 }
