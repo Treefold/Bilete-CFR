@@ -1,5 +1,5 @@
-let WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
 const train = document.getElementById("train");
+let CFR = new Train
 
 for (let i = 0; i < WAGON_COUNT; ++i) {
     const wagon = document.createElement("div");
