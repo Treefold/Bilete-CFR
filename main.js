@@ -128,8 +128,9 @@ class Wagon {
 class Compartment {
     constructor(parent) {
         this.parent = parent;
-
         this.freeSeats = new Array(ROUTE_LENGTH).fill(COMPARTMENT_CAPACITY);
+        this.reservedSeats = [];
+        for (let i = 0; i < STATIONS_NUMBER; ++i) { this.reservedSeats[i] = 0; }
     }
 
     /// Returns the amount of available seats in this compartment on a section of the route.
@@ -143,8 +144,10 @@ class Compartment {
             if (this.freeSeats[i] < num) {
                 throw Error("Cannot reserve seat");
             }
-
+          
             this.freeSeats[i] -= num;
+            this.reservedSeats[start] += num;
+            this.reservedSeats[finish] -= num;
 
             // Update the free seat count of the parents
             let node = this.parent;
@@ -165,33 +168,10 @@ class Compartment {
     }
 }
 
-//// functions
-
 const CFR = new Train;
 
-function formatCompartmentOccupancy(compartment) {
-    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats[0];
-    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
-}
+//// functions
 
-function formatCompartmentGradient(compartment) {
-    const percentFree = compartment.freeSeats[0] / COMPARTMENT_CAPACITY;
-    const percentFull = 1 - percentFree;
-
-    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
-        "%, white " + (percentFull * 100) + "%)";
-}
-
-function cancelTicket() {
-    const c_wagon = document.getElementById("cancel-wagon").value;
-    const c_compartment = document.getElementById("cancel-compartment").value;
-    const c_seat = document.getElementById("cancel-seat").value;
-    if (CFR.root.children[c_wagon].children[c_compartment].deleteSeat(Number(c_seat))) {
-        let el = document.getElementById("train").childNodes[c_wagon].getElementsByClassName("compartment")[c_compartment];
-        el.textContent = formatCompartmentOccupancy(CFR.root.children[c_wagon].children[c_compartment]);
-        el.style.background = formatCompartmentGradient(CFR.root.children[c_wagon].children[c_compartment]);
-    }
-};
 
 //// Unit tests for the classes in the project
 
