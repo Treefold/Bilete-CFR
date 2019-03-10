@@ -21,6 +21,9 @@ class Compartment {
         for (let i = 0; i < COMPARTMENT_CAPACITY; ++i) {
             this.seatAvailability.push(1);
         }
+        // Callback to be called whenever the number of seats
+        // occupied in this compartment changes.
+        this.callback = function() { };
     }
     get freeSeats() {
         return this._freeSeats;
@@ -32,6 +35,7 @@ class Compartment {
 
         const diff = value - this._freeSeats;
         this._freeSeats = value;
+        this.callback();
 
         // Update the free seat count of the parents
         let node = this.parent;
