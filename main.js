@@ -18,6 +18,7 @@ class Train {
     constructor() {
         this.wagons = [];
         this.freeSeats = new Array(ROUTE_LENGTH).fill(0);
+        this.maxGroupSize = new Array(ROUTE_LENGTH).fill(COMPARTMENT_CAPACITY);
         for (let i = 0; i < WAGON_COUNT; ++i) {
             const wagon = new Wagon(this);
             this.wagons.push(wagon);
@@ -48,6 +49,11 @@ class Train {
         return this.wagons.reduce(function (max, elem) {
             return elem.getFreeSeats(start, finish) > max.getFreeSeats(start, finish) ? elem : max;
         });
+    }
+
+    updateMaxGroupSize(idx) {
+        this.maxGroupSize[idx] = this.wagons.map(w => w.maxGroupSize[idx])
+            .reduce((max, curr) => Math.max(max, curr));
     }
 }
 
@@ -80,6 +86,11 @@ class Wagon {
             }
         });
     }
+
+    updateMaxGroupSize(idx) {
+        this.maxGroupSize[idx] = this.compartments.map(c => c.freeSeats[idx])
+            .reduce((max, curr) => Math.max(max, curr));
+    }
 }
 
 class Compartment {
@@ -107,6 +118,7 @@ class Compartment {
             let node = this.parent;
             while (node != null) {
                 node.freeSeats[i] -= num;
+                node.updateMaxGroupSize(i);
                 node = node.parent;
             }
         }
