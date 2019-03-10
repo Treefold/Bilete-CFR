@@ -109,7 +109,7 @@ function addAllTickets() {
     let groupSize, start, finish;
     
     document.getElementById("tickets").value.split('\n').forEach(function(element) {
-        let now = element.split(' ');
+        let now = element.trim().split(/\s+/);
         groupSize = parseInt(now[0]);
         start = parseInt(now[1]);
         finish = parseInt(now[2]);
