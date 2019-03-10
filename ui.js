@@ -121,7 +121,7 @@ function addAllTickets() {
             start = parseInt(now[1]) - 1;
             duration = parseInt(now[2]);
             if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAX_SIZE) {
-                throw Error(lineMsg + "Nu am înțeles dimensiunea grupului");
+                throw Error(lineMsg + "Nu am înțeles numărul de locuri dorite");
             }
             if (isNaN(start) || start < 0 || start >= STATIONS_NUMBER - 1) {
                 throw Error(lineMsg + "Nu am înțeles stația de plecare")
