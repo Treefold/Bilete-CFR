@@ -83,6 +83,27 @@
     }
 }) (CFR);
 
+function addTicket() {
+    const groupSize = Number(document.getElementById("persons").value);
+    const start = Number(document.getElementById("departure-station").selectedIndex);
+    const finish = Number(document.getElementById("arrival-station").selectedIndex) + 1;
+
+    console.log(groupSize, start, finish);
+
+    const ticket = new Ticket(groupSize, start, finish);
+    CFR.addTicket(ticket);
+
+    // Change train display
+    let wagons = document.getElementById("train").childNodes;
+    for (let i = 0; i < WAGON_COUNT; ++i) {
+        let compartments = wagons[i].getElementsByClassName("compartment");
+        for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
+            compartments[j].textContent = formatCompartmentOccupancy(CFR.wagons[i].compartments[j]);
+            compartments[j].style.background = formatCompartmentGradient(CFR.wagons[i].compartments[j]);
+        }
+    }
+}
+
 // Select Dep - > Display some Arr + Train in station Dep
 function dep_arr() {
     const dep_station = document.getElementById("departure-station").value;
