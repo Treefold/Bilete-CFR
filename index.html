@@ -47,8 +47,8 @@
         </br>
         <h1>Introducere multipla de cereri de bilete</h1>
         <p>Introduceți numarul stației de plecare, numarul statiei destinație și nr. de locuri dorite.</p>
-        <form onsubmit="return false;">
-            <input id = "submit-all-tickets" type="submit" value="Adaugă bilet(e)" onclick="addAllTickets();"/>
+        <form onsubmit="addAllTickets(); return false;">
+            <input id = "submit-all-tickets" type="submit" value="Adaugă bilet(e)"/>
             </br>
             <textarea id="tickets" rows="10", cols="20"></textarea>
         </form>
