@@ -3,18 +3,16 @@ const STATIONS = [
     "Sinaia", "Câmpina", "Ploiești Vest", "București Nord",
 ];
 
-const WAGON_COUNT = 5;
-const COMPARTMENTS_PER_WAGON = 10;
-const COMPARTMENT_CAPACITY = 8;
+const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
 
-///assert
+/////assert
 
 function assert(bool, mess) {
     if (bool === false)
         throw Error(mess);
 }
 
-///tests
+/////tests
 
 function testNodeParent() {
     let father = new TreeNode;
@@ -41,13 +39,13 @@ function testEmptiestChild() {
 
 ///function declarations
 
-///classes
+/////classes
 
 class TreeNode {
     constructor(fs) {
         this.parent = null;
         this.children = [];
-        this.freeSeats = fs;
+        this.freeSeats = (fs === undefined) ? COMPARTMENT_CAPACITY : fs;
     }
     ///adds a new child (node) to this node, the parameter is the child
     addChild(child) {
@@ -72,7 +70,7 @@ class TreeNode {
 class Compartment {
     constructor() {
         this.parent = null;
-        this._freeSeats = 0;
+        this._freeSeats = COMPARTMENT_CAPACITY;
     }
     get freeSeats(){
         return this._freeSeats;
@@ -82,7 +80,7 @@ class Compartment {
         if (this._freeSeats < 0 || this._freeSeats > 8)
             throw Error("Wrong alocation of seats in compartment!");
     }
-    
+
 
     get nrSeats() {
         return this.freeSeats;
@@ -101,31 +99,35 @@ class Train {
     constructor() {
         let root = new TreeNode;
 
-        for (let i = 0; i < 5; ++i) {
+        for (let i = 0; i < WAGON_COUNT; ++i) {
             let wagon = new TreeNode;
-            for (let j = 0; j < 10; ++j) {
+            for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
                 let comp = new Compartment;
                 wagon.addChild(comp);
             }
             root.addChild(wagon);
         }
         this.root = root;
-
     }
 }
 
-///other stuff
+const train = document.getElementById("train");
+let CFR = new Train
 
-let r = new TreeNode;
-let wag = new TreeNode;
+for (let i = 0; i < WAGON_COUNT; ++i) {
+    const wagon = document.createElement("div");
+    wagon.className = "wagon";
 
-r.addChild(wag);
-if (r.children[0].parent === r)
-    console.log("merge");
-else {
-    console.log("nu merge");
+    const wagonNumber = document.createElement('span');
+    wagonNumber.textContent = "Vagon " + (i + 1) + ":";
+    wagon.appendChild(wagonNumber);
+
+    for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
+        const compartment = document.createElement('span');
+        compartment.className = "compartment";
+        compartment.textContent = "0/" + COMPARTMENT_CAPACITY;
+        wagon.appendChild(compartment);
+    }
+
+    train.appendChild(wagon);
 }
-
-testNodeParent();
-testEmptiestChild();
-
