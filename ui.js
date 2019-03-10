@@ -24,7 +24,6 @@
 
 (function(){
   const train = document.getElementById("train");
-  let CFR = new Train
 
   for (let i = 0; i < WAGON_COUNT; ++i) {
       const wagon = document.createElement('div');
