@@ -58,9 +58,9 @@
 // Display Train
 (function (train) {
     const trainEl = document.getElementById("train");
-  
+
     for (let i = 0; i < WAGON_COUNT; ++i) {
-        const wagon = train.root.children[i];
+        const wagon = train.wagons[i];
 
         const wagonEl = document.createElement('div');
         wagonEl.className = "wagon";
@@ -70,7 +70,7 @@
         wagonEl.appendChild(wagonNumberEl);
 
         for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-            const compartment = wagon.children[j];
+            const compartment = wagon.compartments[j];
             const compartmentEl = document.createElement('span');
             compartmentEl.className = "compartment";
 
@@ -86,7 +86,7 @@
 // Select Dep - > Display some Arr + Train in station Dep
 function dep_arr() {
     const dep_station = document.getElementById("departure-station").value;
-  
+
     // Available arrival station
     document.getElementById("arrival-station").selectedIndex = dep_station;
     const arr_st = document.getElementById("arrival-station").childNodes;
@@ -94,7 +94,7 @@ function dep_arr() {
     for (let i = 0; i < lg; ++i) {
         arr_st[i].style.display = (i < dep_station) ? "none" : "block";
     }
-  
+
     // Change train display
     let wagons = document.getElementById("train").childNodes;
     for (let i = 0; i < WAGON_COUNT; ++i) {
