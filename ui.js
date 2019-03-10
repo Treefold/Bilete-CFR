@@ -68,6 +68,8 @@ function addTicket() {
     const start = Number(document.getElementById("departure-station").selectedIndex);
     const finish = Number(document.getElementById("arrival-station").selectedIndex) + 1;
 
+    document.getElementById("route-section").selectedIndex = start;
+
     const ticket = new Ticket(groupSize, start, finish);
     if (!CFR.addTicket(ticket)) {
         alert("Nu mai sunt locuri disponibile");
