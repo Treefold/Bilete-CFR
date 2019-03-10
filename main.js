@@ -2,16 +2,6 @@ const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
 const STATIONS = ['București Nord', 'Ploiești Vest', 'Câmpina', 'Sinaia', 'Bușteni', 'Azuga', 'Predeal', 'Brașov'];
 const STATIONS_NUMBER = STATIONS.length;
 
-///// assert
-
-/// Ensures that a given condition is true.
-/// Otherwise throws an error.
-function assert(condition, mess) {
-    if (!condition) {
-        throw Error(mess);
-    }
-}
-
 ///// classes
 
 class Ticket {
@@ -104,3 +94,26 @@ function cancelTicket() {
     const c_seat = document.getElementById("cancel-seat");
     CFR.deleteSeat(c_wagon, c_compartment, c_seat);
 };
+
+//// Unit tests for the classes in the project
+
+runTests();
+
+function runTests() {
+    testNodeChild();
+}
+
+/// Ensures that a given condition is true.
+/// Otherwise throws an error.
+function assert(condition, message) {
+    if (!condition) {
+        throw Error(message);
+    }
+}
+
+function testNodeChild() {
+    const node = new TreeNode;
+    node.addChild(new TreeNode);
+
+    assert(node.children[0].parent === node, "Child's parent is not correct");
+}
