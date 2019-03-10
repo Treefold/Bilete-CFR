@@ -10,47 +10,56 @@
     </head>
     <body>
         <h1>Bilete CFR</h1>
-        <p>Introduceți stația de plecare, destinația și nr. de locuri dorite.</p>
-        <form onsubmit="addTicket(); return false;">
-            <div>
-                <label for="persons">Număr pasageri:</label>
-                <input id="persons" type="number" min="1" max="5" value="1"/>
-            </div>
-            <div>
-                <label for="group-together">Locurile să fie împreună:</label>
-                <input id="group-together" type="checkbox" checked="true"/>
-                <p>Dacă alegeți această opțiune, veți primi biletul doar în cazul în care tot grupul poate sta în același compartiment.</p>
-            </div>
-            <fieldset>
-                <legend>Stații</legend>
-                <label for="departure-station">Stație de plecare</label>
-                <select id="departure-station" onchange="dep_arr();"></select>
-                <label for="arrival-station">Stație de sosire</label>
-                <select id="arrival-station"></select>
-            </fieldset>
-            <input id = "submit-ticket" type="submit" value="Adaugă bilet(e)"/>
-        </form>
+        <div id="ticket-form">
+            <section id="single-ticket-form">
+                <h2>Cerere individuală de bilet</h2>
+                <p>Introduceți stația de plecare, destinația și nr. de locuri dorite.</p>
+                <form onsubmit="addTicket(); return false;">
+                    <div>
+                        <label for="persons">Număr pasageri:</label>
+                        <input id="persons" type="number" min="1" max="5" value="1"/>
+                    </div>
+                    <fieldset>
+                        <legend>Stații</legend>
+                        <div>
+                            <label for="departure-station">Stație de plecare</label>
+                            <select id="departure-station" onchange="dep_arr();"></select>
+                        </div>
+                        <div>
+                            <label for="arrival-station">Stație de sosire</label>
+                            <select id="arrival-station"></select>
+                        </div>
+                    </fieldset>
+                    <input id = "submit-ticket" type="submit" value="Adaugă bilet(e)"/>
+                </form>
+            </section>
+            <section id="multiple-ticket-form">
+                <h2>Introducere multiplă de cereri de bilete</h2>
+                <p>Introduceți pe fiecare linie:
+                    <ol>
+                        <li>numărul de locuri dorite</li>
+                        <li>numărul stației de plecare</li>
+                        <li>numărul de stații parcurse</li>
+                    </ol>
+                    <em>Stațiile sunt indexate de la 1</em>
+                </p>
+                <form onsubmit="addAllTickets(); return false;">
+                    <div>
+                        <input id = "submit-all-tickets" type="submit" value="Adaugă bilet(e)"/>
+                    </div>
+                    <div>
+                        <textarea id="tickets" rows="10", cols="28"></textarea>
+                    </div>
+                </form>
+            </section>
+        </div>
         <section>
             <h2>Repartizarea locurilor</h2>
+            <div>
+                <label for="route-section">Pentru porțiunea:</label>
+                <select id="route-section" onchange="updateTrainDisplay()"></select>
+            </div>
             <div id="train"></div>
         </section>
-        <h1>Anulare Bilete CFR</h1>
-        <p>Introduceți pe rând Codul Unic al fiecărui bilet pe care vrei să+l returnezi.</p>
-        <form onsubmit="cancelTicket(); return false;">
-            <span>Codul Unic al biletului: </span>
-            <select id="cancel-wagon"></select>
-            <select id="cancel-compartment"></select>
-            <select id="cancel-seat"></select>
-            &emsp;
-            <input id = "cancel-ticket" type="submit" value="Anulează biletul"/>
-        </form>
-        </br>
-        <h1>Introducere multiplă de cereri de bilete</h1>
-        <p>Introduceți pe fiecare linie: nr. de locuri dorite, nr. stației de plecare și nr. de stații parcurse.</br>Stațile sunt numerotate de la 0;</p>
-        <form onsubmit="addAllTickets(); return false;">
-            <input id = "submit-all-tickets" type="submit" value="Adaugă bilet(e)"/>
-            </br>
-            <textarea id="tickets" rows="10", cols="20"></textarea>
-        </form>
     </body>
 </html>
