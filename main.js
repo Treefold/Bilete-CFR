@@ -1,45 +1,54 @@
-const STATIONS = [
-    "Brașov", "Predeal", "Azuga", "Bușteni",
-    "Sinaia", "Câmpina", "Ploiești Vest", "București Nord",
-];
+const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8, STATIONS_NUMBER = 8;
+const STATIONS = ['București Nord','Ploiești Vest','Câmpina','Sinaia','Bușteni','Azuga','Predeal','Brașov'];
 
-const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
-
-/////assert
+///// assert
 
 function assert(bool, mess) {
     if (bool === false)
         throw Error(mess);
 }
 
-/////tests
+///// classes
 
-function testNodeParent() {
-    let father = new TreeNode;
-    let son = new TreeNode;
-    father.addChild(son);
-    assert(father.children[0].parent === father, "Son's parent is not father!");
+class Ticket {
+    constructor(start, finish) {
+        this.Compartment = undefined;
+        this.Seat = undefined;
+        this.start = start;
+        this.finish = finish;
+    }
 }
 
-function testEmptiestChild() {
-    let wagon = new TreeNode;
-    let c1 = new Compartment(4);
-    let c2 = new Compartment(3);
-    let c3 = new Compartment(1);
-    let c4 = new Compartment(0);
-
-    wagon.addChild(c1);
-    wagon.addChild(c2);
-    wagon.addChild(c3);
-    wagon.addChild(c4);
-
-    assert(wagon.getEmptiestChild() === c4, "Wrong EmptiestChild chosen!");
-    ///assert(wagon.getEmptiestChild() === null, "Emptiest child is empty wagon!");
+class Compartment {
+    constructor() {
+        this.parent = null;
+        this._freeSeats = COMPARTMENT_CAPACITY;
+        this.seatAvability = [];
+        for (let i = 0; i < COMPARTMENT_CAPACITY; ++i) {
+          this.seatAvability[i] = 1;
+        }
+    }
+    get freeSeats(){
+        return this._freeSeats;
+    }
+    set freeSeats(value) {
+        this._freeSeats += value;
+        if (this._freeSeats < 0 || this._freeSeats > 8)
+            throw Error("Wrong alocation of seats in compartment!");
+    }
+    get nrSeats() {
+        return this.freeSeats;
+    }
+    deleteSeat (s) {
+        if (this.seatAvability[s] == 1) {
+            alert ("Bilet inexistent! Acest loc este deja liber.");
+        }
+        else {
+            this.seatAvability[s] == 1;
+            this._freeSeats += 1;
+        }
+    }
 }
-
-///function declarations
-
-/////classes
 
 class TreeNode {
     constructor(fs) {
@@ -47,7 +56,7 @@ class TreeNode {
         this.children = [];
         this.freeSeats = (fs === undefined) ? COMPARTMENT_CAPACITY : fs;
     }
-    ///adds a new child (node) to this node, the parameter is the child
+    //adds a new child (node) to this node, the parameter is the child
     addChild(child) {
         this.children.push(child);
         child.parent = this;
@@ -65,40 +74,12 @@ class TreeNode {
         }
         return child;
     }
-}
-
-class Compartment {
-    constructor() {
-        this.parent = null;
-        this._freeSeats = COMPARTMENT_CAPACITY;
-    }
-    get freeSeats(){
-        return this._freeSeats;
-    }
-    set freeSeats(value) {
-        this._freeSeats += value;
-        if (this._freeSeats < 0 || this._freeSeats > 8)
-            throw Error("Wrong alocation of seats in compartment!");
-    }
-
-
-    get nrSeats() {
-        return this.freeSeats;
-    }
-}
-
-class Ticket {
-    constructor(start, finish) {
-        this.Compartment = undefined;
-        this.start = start;
-        this.finish = finish;
-    }
+    deleteSeat (c, s) {this.childNodes[c].deleteSeat (s);}
 }
 
 class Train {
     constructor() {
         let root = new TreeNode;
-
         for (let i = 0; i < WAGON_COUNT; ++i) {
             let wagon = new TreeNode;
             for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
@@ -109,4 +90,16 @@ class Train {
         }
         this.root = root;
     }
+    get treeRoot () {return this.root;}
+    deleteSeat (w, c, s) {this.childNodes[w].deleteSeat (c, s);}
 }
+
+//// functions
+
+let CFR = new Train();
+function cancelTicket() {
+    const c_wagon = document.getElementById("cancel-wagon");
+    const c_compartment = document.getElementById("cancel-compartment");
+    const c_seat = document.getElementById("cancel-seat");
+    CTF.deleteSeat (c_wagon, c_compartment, c_seat);
+};
