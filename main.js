@@ -13,6 +13,20 @@ class Ticket {
     }
 }
 
+function formatCompartmentOccupancy(compartment) {
+    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats;
+    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
+}
+
+function formatCompartmentGradient(compartment) {
+    const percentFree = compartment.freeSeats / COMPARTMENT_CAPACITY;
+    const percentFull = 1 - percentFree;
+
+    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
+        "%, white " + (percentFull * 100) + "%)";
+}
+
+
 class Compartment {
     constructor() {
         this.parent = null;
@@ -21,9 +35,6 @@ class Compartment {
         for (let i = 0; i < COMPARTMENT_CAPACITY; ++i) {
             this.seatAvailability.push(1);
         }
-        // Callback to be called whenever the number of seats
-        // occupied in this compartment changes.
-        this.callback = function() { };
     }
     get freeSeats() {
         return this._freeSeats;
@@ -35,7 +46,7 @@ class Compartment {
 
         const diff = value - this._freeSeats;
         this._freeSeats = value;
-        this.callback();
+        //this.callback();
 
         // Update the free seat count of the parents
         let node = this.parent;
@@ -47,9 +58,11 @@ class Compartment {
     deleteSeat(s) {
         if (this.seatAvailability[s] == 1) {
             alert("Bilet inexistent! Acest loc este deja liber.");
+            return 0;
         } else {
             this.seatAvailability[s] = 1;
             this.freeSeats += 1;
+            return 1;
         }
     }
 }
@@ -68,7 +81,16 @@ class TreeNode {
     }
     /// Returns the child node with the most empty number of seats.
     getEmptiestChild() {
-        return this.children.reduce(function (max, elem) { return elem.freeSeats > max.freeSeats ? elem : max; });
+        let min = this.children[0].freeSeats;
+        let child = this.children[0];
+        let lg = this.children.length;
+        for (let i = 1; i < lg; ++i) {
+            if (this.children[i].freeSeats < min) {
+                min = this.children[i].freeSeats;
+                child = this.children[i];
+            }
+        }
+        return child;
     }
 }
 
@@ -96,8 +118,26 @@ function cancelTicket() {
     const c_wagon = document.getElementById("cancel-wagon").value;
     const c_compartment = document.getElementById("cancel-compartment").value;
     const c_seat = document.getElementById("cancel-seat").value;
-    CFR.root.children[c_wagon].children[c_seat].deleteSeat(Number(c_seat));
+    if (CFR.root.children[c_wagon].children[c_compartment].deleteSeat(Number(c_seat))) {
+        let el = document.getElementById("train").childNodes[c_wagon].getElementsByClassName("compartment")[c_compartment];
+        el.textContent = formatCompartmentOccupancy(CFR.root.children[c_wagon].children[c_compartment]);
+        el.style.background = formatCompartmentGradient(CFR.root.children[c_wagon].children[c_compartment]);
+    }
 };
+
+function toOne() {
+    // Change train display
+    let wagons = document.getElementById("train").childNodes;
+    for (let i = 0; i < WAGON_COUNT; ++i) {
+        let compartments = wagons[i].getElementsByClassName("compartment");
+        for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
+            CFR.root.children[i].children[j].freeSeats = 7;
+            CFR.root.children[i].children[j].seatAvailability[0] = 0;
+            compartments[j].textContent = formatCompartmentOccupancy(CFR.root.children[i].children[j]);
+            compartments[j].style.background = formatCompartmentGradient(CFR.root.children[i].children[j]);
+        }
+    }
+}
 
 //// Unit tests for the classes in the project
 
@@ -106,7 +146,6 @@ runTests();
 function runTests() {
     testNodeChild();
     testFreeSeats();
-    testEmptiestChild();
 }
 
 /// Ensures that a given condition is true.
@@ -143,20 +182,4 @@ function testFreeSeats() {
 
     assert(root.freeSeats === TOTAL_SEATS - 7,
         "Freeing seats does not work");
-}
-
-function testEmptiestChild() {
-    let r = new TreeNode;
-    let c1 = new Compartment;
-    c1.freeSeats -= 2;
-    let c2 = new Compartment;
-    c2.freeSeats -= 3;
-    let c3 = new Compartment;
-    c3.freeSeats -= 8;
-
-    r.addChild(c1);
-    r.addChild(c2);
-    r.addChild(c3);
-
-    assert(r.getEmptiestChild() === c1, "Wrong child chosen when looking for the emptiest!");
 }
