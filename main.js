@@ -55,6 +55,9 @@ class Train {
         if (compartment.getFreeSeats(start, finish) >= groupSize) {
             compartment.reserveSeats(groupSize, start, finish);
             ticket.compartment = compartment;
+            for (let i = start; i < finish; ++i) { compartment.reservedS[i] += groupSize; }
+            //this.reservedS[start] += num;
+            //this.reservedS[finish] -= num;
             return true;
         } else {
             return false;
@@ -146,9 +149,6 @@ class Compartment {
             }
           
             this.freeSeats[i] -= num;
-            for (let i = start; i < finish; ++i) { this.reservedS[i] += 1; }
-            //this.reservedS[start] += num;
-            //this.reservedS[finish] -= num;
 
             // Update the free seat count of the parents
             let node = this.parent;
