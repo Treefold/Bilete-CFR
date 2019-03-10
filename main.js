@@ -13,20 +13,6 @@ class Ticket {
     }
 }
 
-function formatCompartmentOccupancy(compartment) {
-    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats;
-    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
-}
-
-function formatCompartmentGradient(compartment) {
-    const percentFree = compartment.freeSeats / COMPARTMENT_CAPACITY;
-    const percentFull = 1 - percentFree;
-
-    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
-        "%, white " + (percentFull * 100) + "%)";
-}
-
-
 class Compartment {
     constructor() {
         this.parent = null;
@@ -80,16 +66,7 @@ class TreeNode {
     }
     /// Returns the child node with the most empty number of seats.
     getEmptiestChild() {
-        let min = this.children[0].freeSeats;
-        let child = this.children[0];
-        let lg = this.children.length;
-        for (let i = 1; i < lg; ++i) {
-            if (this.children[i].freeSeats < min) {
-                min = this.children[i].freeSeats;
-                child = this.children[i];
-            }
-        }
-        return child;
+        return this.children.reduce(function (max, elem) { return elem.freeSeats > max.freeSeats ? elem : max; });
     }
 }
 
@@ -112,6 +89,19 @@ class Train {
 //// functions
 
 const CFR = new Train;
+
+function formatCompartmentOccupancy(compartment) {
+    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats;
+    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
+}
+
+function formatCompartmentGradient(compartment) {
+    const percentFree = compartment.freeSeats / COMPARTMENT_CAPACITY;
+    const percentFull = 1 - percentFree;
+
+    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
+        "%, white " + (percentFull * 100) + "%)";
+}
 
 function cancelTicket() {
     const c_wagon = document.getElementById("cancel-wagon").value;
@@ -145,6 +135,7 @@ runTests();
 function runTests() {
     testNodeChild();
     testFreeSeats();
+    testEmptiestChild();
 }
 
 /// Ensures that a given condition is true.
@@ -182,3 +173,27 @@ function testFreeSeats() {
     assert(root.freeSeats === TOTAL_SEATS - 7,
         "Freeing seats does not work");
 }
+
+function testEmptiestChild() {
+    let r = new TreeNode;
+    let c1 = new Compartment;
+    c1.freeSeats -= 2;
+    let c2 = new Compartment;
+    c2.freeSeats -= 3;
+    let c3 = new Compartment;
+    c3.freeSeats -= 8;
+
+    r.addChild(c1);
+    r.addChild(c2);
+    r.addChild(c3);
+
+    assert(r.getEmptiestChild() === c1, "Wrong child chosen when looking for the emptiest!");
+}
+
+////////////////////////////////
+
+///// classes
+
+
+
+//// functions
