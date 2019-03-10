@@ -4,17 +4,20 @@ const STATIONS_NUMBER = STATIONS.length;
 
 ///// assert
 
-function assert(bool, mess) {
-    if (bool === false)
+/// Ensures that a given condition is true.
+/// Otherwise throws an error.
+function assert(condition, mess) {
+    if (!condition) {
         throw Error(mess);
+    }
 }
 
 ///// classes
 
 class Ticket {
     constructor(start, finish) {
-        this.Compartment = undefined;
-        this.Seat = undefined;
+        this.compartment = null;
+        this.seat = null;
         this.start = start;
         this.finish = finish;
     }
@@ -33,19 +36,16 @@ class Compartment {
         return this._freeSeats;
     }
     set freeSeats(value) {
-        this._freeSeats += value;
-        if (this._freeSeats < 0 || this._freeSeats > 8)
+        if (this._freeSeats < 0 || this._freeSeats > 8) {
             throw Error("Wrong alocation of seats in compartment!");
-    }
-    get nrSeats() {
-        return this.freeSeats;
+        }
+        this._freeSeats += value;
     }
     deleteSeat(s) {
         if (this.seatAvability[s] == 1) {
             alert("Bilet inexistent! Acest loc este deja liber.");
-        }
-        else {
-            this.seatAvability[s] == 1;
+        } else {
+            this.seatAvability[s] = 1;
             this._freeSeats += 1;
         }
     }
@@ -57,11 +57,12 @@ class TreeNode {
         this.children = [];
         this.freeSeats = (fs === undefined) ? COMPARTMENT_CAPACITY : fs;
     }
-    //adds a new child (node) to this node, the parameter is the child
+    /// Adds a new child (node) to this node, the parameter is the child
     addChild(child) {
         this.children.push(child);
         child.parent = this;
     }
+    /// Returns the child node with the most empty number of seats.
     getEmptiestChild() {
         let min = this.children[0].freeSeats;
         let child = this.children[0];
