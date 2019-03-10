@@ -1,5 +1,6 @@
-const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8, STATIONS_NUMBER = 8;
-const STATIONS = ['București Nord','Ploiești Vest','Câmpina','Sinaia','Bușteni','Azuga','Predeal','Brașov'];
+const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
+const STATIONS = ['București Nord', 'Ploiești Vest', 'Câmpina', 'Sinaia', 'Bușteni', 'Azuga', 'Predeal', 'Brașov'];
+const STATIONS_NUMBER = STATIONS.length;
 
 ///// assert
 
@@ -25,10 +26,10 @@ class Compartment {
         this._freeSeats = COMPARTMENT_CAPACITY;
         this.seatAvability = [];
         for (let i = 0; i < COMPARTMENT_CAPACITY; ++i) {
-          this.seatAvability[i] = 1;
+            this.seatAvability[i] = 1;
         }
     }
-    get freeSeats(){
+    get freeSeats() {
         return this._freeSeats;
     }
     set freeSeats(value) {
@@ -39,9 +40,9 @@ class Compartment {
     get nrSeats() {
         return this.freeSeats;
     }
-    deleteSeat (s) {
+    deleteSeat(s) {
         if (this.seatAvability[s] == 1) {
-            alert ("Bilet inexistent! Acest loc este deja liber.");
+            alert("Bilet inexistent! Acest loc este deja liber.");
         }
         else {
             this.seatAvability[s] == 1;
@@ -61,20 +62,19 @@ class TreeNode {
         this.children.push(child);
         child.parent = this;
     }
-    getEmptiestChild(){
+    getEmptiestChild() {
         let min = this.children[0].freeSeats;
         let child = this.children[0];
         let lg = this.children.length;
-        for(let i = 1; i < lg; ++i){
-            if(this.children[i].freeSeats < min)
-            {
+        for (let i = 1; i < lg; ++i) {
+            if (this.children[i].freeSeats < min) {
                 min = this.children[i].freeSeats;
                 child = this.children[i];
             }
         }
         return child;
     }
-    deleteSeat (c, s) {this.childNodes[c].deleteSeat (s);}
+    deleteSeat(c, s) { this.childNodes[c].deleteSeat(s); }
 }
 
 class Train {
@@ -90,8 +90,8 @@ class Train {
         }
         this.root = root;
     }
-    get treeRoot () {return this.root;}
-    deleteSeat (w, c, s) {this.childNodes[w].deleteSeat (c, s);}
+    get treeRoot() { return this.root; }
+    deleteSeat(w, c, s) { this.childNodes[w].deleteSeat(c, s); }
 }
 
 //// functions
@@ -101,5 +101,5 @@ function cancelTicket() {
     const c_wagon = document.getElementById("cancel-wagon");
     const c_compartment = document.getElementById("cancel-compartment");
     const c_seat = document.getElementById("cancel-seat");
-    CTF.deleteSeat (c_wagon, c_compartment, c_seat);
+    CFR.deleteSeat(c_wagon, c_compartment, c_seat);
 };
