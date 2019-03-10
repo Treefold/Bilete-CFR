@@ -63,7 +63,7 @@ class TreeNode {
         this.freeSeats += child.freeSeats;
     }
     /// Returns the child node with the most empty number of seats.
-    getEmptiestChild() {
+    /*getEmptiestChild() {
         let min = this.children[0].freeSeats;
         let child = this.children[0];
         let lg = this.children.length;
@@ -74,6 +74,13 @@ class TreeNode {
             }
         }
         return child;
+    }*/
+    getEmptiestChild() {
+
+        function reducer(min.freeSeats, elem.freeSeats) {
+            return elem.freeSeats > min.freeSeats ? min.freeSeats : elem.freeSeats;
+        }
+        return this.children.reduce(reducer);
     }
 }
 
@@ -150,7 +157,7 @@ function testFreeSeats() {
         "Freeing seats does not work");
 }
 
-function testEmptiestChild(){
+function testEmptiestChild() {
     let r = new TreeNode;
     let c1 = new Compartment;
     c1.freeSeats -= 2;
