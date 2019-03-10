@@ -2,6 +2,7 @@ const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
 const STATIONS = ['București Nord', 'Ploiești Vest', 'Câmpina', 'Sinaia', 'Bușteni', 'Azuga', 'Predeal', 'Brașov'];
 const STATIONS_NUMBER = STATIONS.length;
 const ROUTE_LENGTH = STATIONS_NUMBER - 1;
+const GROUP_MAX_SIZE = 5;
 
 ///// classes
 
