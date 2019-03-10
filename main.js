@@ -34,11 +34,12 @@ class Train {
         const wagon = this.getEmptiestChild(start, finish);
         const compartment = wagon.getBestCompartment(start, finish);
 
-        if (compartment.getFreeSeats(start, finish) > ticket.groupSize) {
+        if (compartment.getFreeSeats(start, finish) >= ticket.groupSize) {
             compartment.reserveSeats(ticket.groupSize, start, finish);
             ticket.compartment = compartment;
+            return true;
         } else {
-            alert("Nu mai sunt locuri disponibile");
+            return false;
         }
     }
 
@@ -66,7 +67,8 @@ class Wagon {
     }
 
     getFreeSeats(start, finish) {
-        return this.freeSeats.slice(start, finish).reduce(Math.min)
+        return this.freeSeats.slice(start, finish)
+            .reduce(function (acc, value) { return Math.min(acc, value); })
     }
 
     getBestCompartment(start, finish) {
@@ -89,7 +91,8 @@ class Compartment {
 
     /// Returns the amount of available seats in this compartment on a section of the route.
     getFreeSeats(start, finish) {
-        return this.freeSeats.slice(start, finish).reduce(Math.min);
+        return this.freeSeats.slice(start, finish)
+            .reduce(function (acc, value) { return Math.min(acc, value); });
     }
 
     reserveSeats(num, start, finish) {
@@ -153,6 +156,7 @@ runTests();
 function runTests() {
     testNodeChild();
     testFreeSeats();
+    testAddTicketAlmostFull();
 }
 
 /// Ensures that a given condition is true.
@@ -182,4 +186,13 @@ function testFreeSeats() {
 
     assert(train.freeSeats[1] === TOTAL_SEATS - 12,
         "Reserving seats does not work");
+}
+
+function testAddTicketAlmostFull() {
+    const train = new Train;
+    for (let i = 0; i < WAGON_COUNT * COMPARTMENTS_PER_WAGON; ++i) {
+        train.addTicket(new Ticket(COMPARTMENT_CAPACITY - 1, 0, STATIONS_NUMBER - 1));
+    }
+
+    assert(train.addTicket(new Ticket(1, 0, STATIONS_NUMBER - 1)), "Almost full train cannot add ticket");
 }
