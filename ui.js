@@ -23,27 +23,51 @@
     arr_st.appendChild(option);
 })();
 
-(function(){
-  const train = document.getElementById("train"); 
+function formatCompartmentOccupancy(compartment) {
+    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats;
+    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
+}
 
-  for (let i = 0; i < WAGON_COUNT; ++i) {
-      const wagon = document.createElement('div');
-      wagon.className = "wagon";
+function formatCompartmentGradient(compartment) {
+    const percentFree = compartment.freeSeats / COMPARTMENT_CAPACITY;
+    const percentFull = 1 - percentFree;
 
-      const wagonNumber = document.createElement('span');
-      wagonNumber.textContent = "Vagon " + (i + 1) + ":";
-      wagon.appendChild(wagonNumber);
+    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
+        "%, white " + (percentFull * 100) + "%)";
+}
 
-      for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
-          const compartment = document.createElement('span');
-          compartment.className = "compartment";
-          compartment.textContent = "0/" + COMPARTMENT_CAPACITY;
-          wagon.appendChild(compartment);
-      }
+function renderTrain(train) {
+    const trainEl = document.getElementById("train");
 
-      train.appendChild(wagon);
-  }
-})();
+    for (let i = 0; i < WAGON_COUNT; ++i) {
+        const wagon = train.root.children[i];
+
+        const wagonEl = document.createElement('div');
+        wagonEl.className = "wagon";
+
+        const wagonNumberEl = document.createElement('span');
+        wagonNumberEl.textContent = "Vagon " + (i + 1) + ":";
+        wagonEl.appendChild(wagonNumberEl);
+
+        for (let j = 0; j < COMPARTMENTS_PER_WAGON; ++j) {
+            const compartment = wagon.children[j];
+            const compartmentEl = document.createElement('span');
+            compartmentEl.className = "compartment";
+
+            compartment.callback = function() {
+                compartmentEl.textContent = formatCompartmentOccupancy(compartment);
+                compartmentEl.style.background = formatCompartmentGradient(compartment);
+            };
+            compartment.callback();
+
+            wagonEl.appendChild(compartmentEl);
+        }
+
+        trainEl.appendChild(wagonEl);
+    }
+}
+
+renderTrain(CFR);
 
 (function () {
     const c_wagon = document.getElementById("cancel-wagon");
