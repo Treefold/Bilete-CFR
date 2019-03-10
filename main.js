@@ -31,27 +31,28 @@ class Train {
     addTicket(ticket) {
         const start = ticket.start;
         const finish = ticket.finish;
+        const groupSize = ticket.groupSize;
 
         // If we simply do not have enough seats anywhere in the train
-        if (ticket.groupSize > this.getFreeSeats(start, finish)) {
+        if (groupSize > this.getFreeSeats(start, finish)) {
             return false;
         }
 
         const maxGroupSize = this.getMaxGroupSize(start, finish);
 
         // Group needs to be placed in separate compartments
-        if (ticket.groupSize > maxGroupSize) {
+        if (groupSize > maxGroupSize) {
             const first = new Ticket(maxGroupSize, start, finish);
-            const second = new Ticket(ticket.groupSize - maxGroupSize, start, finish);
+            const second = new Ticket(groupSize - maxGroupSize, start, finish);
 
             return this.addTicket(first) && this.addTicket(second);
         }
 
-        const wagon = this.getEmptiestChild(start, finish);
+        const wagon = this.getEmptiestChild(groupSize, start, finish);
         const compartment = wagon.getBestCompartment(start, finish);
 
-        if (compartment.getFreeSeats(start, finish) >= ticket.groupSize) {
-            compartment.reserveSeats(ticket.groupSize, start, finish);
+        if (compartment.getFreeSeats(start, finish) >= groupSize) {
+            compartment.reserveSeats(groupSize, start, finish);
             ticket.compartment = compartment;
             return true;
         } else {
@@ -64,11 +65,11 @@ class Train {
             .reduce((min, curr) => Math.min(min, curr));
     }
 
-    /// Returns the child node with the most empty number of seats.
-    getEmptiestChild(start, finish) {
-        return this.wagons.reduce(function (max, elem) {
-            return elem.getFreeSeats(start, finish) > max.getFreeSeats(start, finish) ? elem : max;
-        });
+    /// Returns the child node with the most empty number of seats,
+    /// which has at least groupSize free seats in the same compartment.
+    getEmptiestChild(groupSize, start, finish) {
+        return this.wagons.filter(wagon => wagon.getMaxGroupSize(start, finish) >= groupSize)
+            .reduce((max, elem) => elem.getFreeSeats(start, finish) > max.getFreeSeats(start, finish) ? elem : max);
     }
 
     getMaxGroupSize(start, finish) {
@@ -110,6 +111,11 @@ class Wagon {
                 return comp;
             }
         });
+    }
+
+    getMaxGroupSize(start, finish) {
+        return this.maxGroupSize.slice(start, finish)
+            .reduce((min, curr) => Math.min(min, curr));
     }
 
     updateMaxGroupSize(idx) {
