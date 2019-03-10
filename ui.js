@@ -111,12 +111,17 @@ function addAllTickets() {
     let groupSize, start, duration;
 
     try {
-        let line = 0;
+        let lineNum = 0;
         const ticketsEl = document.getElementById("tickets");
+        let tickets = [];
         ticketsEl.value.split('\n').forEach(function (element) {
-            line++;
-            const lineMsg = "Linia " + line + ": ";
-            let now = element.trim().split(/\s+/);
+            const line = element.trim();
+            if (!line) {
+                return;
+            }
+            lineNum++;
+            const lineMsg = "Linia " + lineNum + ": ";
+            let now = line.split(/\s+/);
             groupSize = parseInt(now[0]);
             start = parseInt(now[1]) - 1;
             duration = parseInt(now[2]);
@@ -129,11 +134,15 @@ function addAllTickets() {
             if (isNaN(duration) || duration <= 0 || start + duration >= STATIONS_NUMBER) {
                 throw Error(lineMsg + "Nu am înțeles numărul de stații");
             }
-            CFR.addTicket(new Ticket(groupSize, start, start + duration));
+            tickets.push(new Ticket(groupSize, start, start + duration));
         });
 
         ticketsEl.value = "";
 
+        for (let i = 0; i < tickets.length; ++i) {
+            CFR.addTicket(tickets[i]);
+        }
+``
         dep_arr();
     } catch (error) {
         alert(error);
