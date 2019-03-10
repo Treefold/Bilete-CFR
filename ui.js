@@ -88,10 +88,11 @@ function addTicket() {
     const start = Number(document.getElementById("departure-station").selectedIndex);
     const finish = Number(document.getElementById("arrival-station").selectedIndex) + 1;
 
-    console.log(groupSize, start, finish);
-
     const ticket = new Ticket(groupSize, start, finish);
-    CFR.addTicket(ticket);
+    if (!CFR.addTicket(ticket)) {
+        alert("Nu mai sunt locuri disponibile");
+        return;
+    }
 
     // Change train display
     let wagons = document.getElementById("train").childNodes;
