@@ -1,7 +1,3 @@
-// const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
-// const STATIONS = ['București Nord', 'Ploiești Vest', 'Câmpina', 'Sinaia', 'Bușteni', 'Azuga', 'Predeal', 'Brașov'];
-// const STATIONS_NUMBER = STATIONS.length;
-
 // Dep + Arr Select Option
 (function () {
     const dep_st = document.getElementById("departure-station");
@@ -81,7 +77,7 @@
         }
         trainEl.appendChild(wagonEl);
     }
-}) (CFR);
+})(CFR);
 
 function addTicket() {
     const groupSize = Number(document.getElementById("persons").value);
@@ -107,18 +103,18 @@ function addTicket() {
 
 function addAllTickets() {
     let groupSize, start, duration;
-    
-    document.getElementById("tickets").value.split('\n').forEach(function(element) {
+
+    document.getElementById("tickets").value.split('\n').forEach(function (element) {
         let now = element.trim().split(/\s+/);
         groupSize = parseInt(now[0]);
         start = parseInt(now[1]);
         duration = parseInt(now[2]);
-        if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAXIM_NUMBER) { return; }
+        if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAX_SIZE) { return; }
         if (isNaN(start) || start < 0 || start >= STATIONS_NUMBER - 1) { return; }
-        if (isNaN(duration) || duration <= 0 || start+duration >= STATIONS_NUMBER) { return; }
-        CFR.addTicket(new Ticket(groupSize, start, start+duration)); 
+        if (isNaN(duration) || duration <= 0 || start + duration >= STATIONS_NUMBER) { return; }
+        CFR.addTicket(new Ticket(groupSize, start, start + duration));
     });
-  
+
     dep_arr();
 }
 
