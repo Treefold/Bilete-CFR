@@ -106,17 +106,17 @@ function addTicket() {
 }
 
 function addAllTickets() {
-    let groupSize, start, finish;
+    let groupSize, start, duration;
     
     document.getElementById("tickets").value.split('\n').forEach(function(element) {
         let now = element.trim().split(/\s+/);
         groupSize = parseInt(now[0]);
         start = parseInt(now[1]);
-        finish = parseInt(now[2]);
+        duration = parseInt(now[2]);
         if (isNaN(groupSize) || groupSize < 1 || groupSize > GROUP_MAXIM_NUMBER) { return; }
         if (isNaN(start) || start < 0 || start >= STATIONS_NUMBER - 1) { return; }
-        if (isNaN(finish) || finish <= 0 || finish >= STATIONS_NUMBER) { return; }
-        CFR.addTicket(new Ticket(groupSize, start, finish)); 
+        if (isNaN(duration) || duration <= 0 || start+duration >= STATIONS_NUMBER) { return; }
+        CFR.addTicket(new Ticket(groupSize, start, start+duration)); 
     });
   
     dep_arr();
