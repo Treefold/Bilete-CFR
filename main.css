@@ -7,17 +7,39 @@ body {
     margin: 0 auto;
 }
 
+@media (max-width: 72em) {
+    body {
+        margin: 0 1em;
+    }
+}
+
 h1 {
     font-family: sans-serif;
 }
 
-form {
-    border: 1px solid black;
+#ticket-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#ticket-form section {
     padding: 2em 1em;
+    border: 1px solid black;
+    flex: 1 1 30em;
+    margin-right: 1em;
+}
+
+form div {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 form div label {
     text-align: center;
+}
+
+ol li {
+    list-style-type: square;
 }
 
 #train {

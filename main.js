@@ -1,5 +1,8 @@
 const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8;
-const STATIONS = ['București Nord', 'Ploiești Vest', 'Câmpina', 'Sinaia', 'Bușteni', 'Azuga', 'Predeal', 'Brașov'];
+const STATIONS = [
+    'Brașov', 'Predeal', 'Azuga', 'Bușteni',
+    'Sinaia', 'Câmpina', 'Ploiești Vest', 'București Nord'
+];
 const STATIONS_NUMBER = STATIONS.length;
 const ROUTE_LENGTH = STATIONS_NUMBER - 1;
 const GROUP_MAX_SIZE = 5;
@@ -168,19 +171,6 @@ class Compartment {
 //// functions
 
 const CFR = new Train;
-
-function formatCompartmentOccupancy(compartment) {
-    const occupiedSeats = COMPARTMENT_CAPACITY - compartment.freeSeats[0];
-    return occupiedSeats + "/" + COMPARTMENT_CAPACITY;
-}
-
-function formatCompartmentGradient(compartment) {
-    const percentFree = compartment.freeSeats[0] / COMPARTMENT_CAPACITY;
-    const percentFull = 1 - percentFree;
-
-    return "linear-gradient(to right, lightgray " + (percentFull * 100) +
-        "%, white " + (percentFull * 100) + "%)";
-}
 
 function cancelTicket() {
     const c_wagon = document.getElementById("cancel-wagon").value;
