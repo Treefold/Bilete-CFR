@@ -27,9 +27,9 @@ class Compartment {
     constructor() {
         this.parent = null;
         this._freeSeats = COMPARTMENT_CAPACITY;
-        this.seatAvability = [];
+        this.seatAvailability = [];
         for (let i = 0; i < COMPARTMENT_CAPACITY; ++i) {
-            this.seatAvability[i] = 1;
+            this.seatAvailability.push(1);
         }
     }
     get freeSeats() {
