@@ -29,7 +29,7 @@ function getStationName(idx) {
     arr_st.appendChild(option);
 
     const routeSectionEl = document.getElementById("route-section");
-    for (let i = 0; i < STATIONS_NUMBER; ++i) {
+    for (let i = 0; i < STATIONS_NUMBER - 1; ++i) {
         option = document.createElement('option');
         option.value = i;
         option.textContent = getStationName(i) + " - " + getStationName(i + 1);
