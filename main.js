@@ -1,5 +1,6 @@
-let WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8, STATIONS_NUMBER = 8;
-let STATIONS = ['București Nord','Ploiești Vest','Câmpina','Sinaia','Bușteni','Azuga','Predeal','Brașov'];
+const WAGON_COUNT = 5, COMPARTMENTS_PER_WAGON = 10, COMPARTMENT_CAPACITY = 8, STATIONS_NUMBER = 8;
+const STATIONS = ['București Nord','Ploiești Vest','Câmpina','Sinaia','Bușteni','Azuga','Predeal','Brașov'];
+//const CFR = new train;
 
 /////assert
 
@@ -83,7 +84,6 @@ class Train {
 }
 
 function cancelTicket() {
-
     const c_wagon = document.getElementById("cancel-wagon");
     const c_compartment = document.getElementById("cancel-compartment");
     const c_seat = document.getElementById("cancel-seat");
