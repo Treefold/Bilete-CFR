@@ -41,11 +41,11 @@ class Compartment {
         }
     }
     deleteSeat(s) {
-        if (this.seatAvability[s] == 1) {
+        if (this.seatAvailability[s] == 1) {
             alert("Bilet inexistent! Acest loc este deja liber.");
         } else {
-            this.seatAvability[s] = 1;
-            this._freeSeats += 1;
+            this.seatAvailability[s] = 1;
+            this.freeSeats += 1;
         }
     }
 }
@@ -75,7 +75,6 @@ class TreeNode {
         }
         return child;
     }
-    deleteSeat(c, s) { this.childNodes[c].deleteSeat(s); }
 }
 
 class Train {
@@ -92,7 +91,6 @@ class Train {
         this.root = root;
     }
     get treeRoot() { return this.root; }
-    deleteSeat(w, c, s) { this.childNodes[w].deleteSeat(c, s); }
 }
 
 //// functions
@@ -100,10 +98,10 @@ class Train {
 const CFR = new Train;
 
 function cancelTicket() {
-    const c_wagon = document.getElementById("cancel-wagon");
-    const c_compartment = document.getElementById("cancel-compartment");
-    const c_seat = document.getElementById("cancel-seat");
-    CFR.deleteSeat(c_wagon, c_compartment, c_seat);
+    const c_wagon = document.getElementById("cancel-wagon").value;
+    const c_compartment = document.getElementById("cancel-compartment").value;
+    const c_seat = document.getElementById("cancel-seat").value;
+    CFR.root.children[c_wagon].children[c_seat].deleteSeat(Number(c_seat));
 };
 
 //// Unit tests for the classes in the project
